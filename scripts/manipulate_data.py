@@ -1,6 +1,13 @@
 import pandas as pd
-import json
 import ast
+
+def get_list(row, key):
+    list = []
+    for item in row:
+        list.append(item[key])
+    return list
+
+
 
 def main():
     train_df = pd.read_csv('../data/tmdb-box-office-prediction/train.csv')
@@ -11,8 +18,8 @@ def main():
     # print(train_df.head())
 
     # print(train_df.info())
-    train_df['genres'] = train_df['genres'].apply(lambda x: {} if pd.isnull(x) else ast.literal_eval(x))
-    train_df['genres'] = train_df['genres'].apply(lambda x: [i['name'] for i in x] if x != {} else []).values
+    train_df['genres'] = train_df['genres'].apply(lambda row: {} if pd.isnull(row) else ast.literal_eval(row))
+    train_df['genres'] = train_df['genres'].apply(lambda row: get_list(row, 'name') if row != {} else [])
     # print(train_df.info())
     print(train_df['genres'])
 
