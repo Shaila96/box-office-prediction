@@ -1,4 +1,5 @@
 import pandas as pd
+import matplotlib.pyplot as plt
 import ast
 
 def get_list(row, key):
@@ -17,7 +18,16 @@ def main():
     # print(train_df.describe())
     # print(train_df.head())
 
-    # print(train_df.info())
+    print(train_df.info())
+
+    plt.figure(figsize=(10, 6))
+    plt.scatter(train_df['budget'], train_df['revenue'])
+    plt.xlabel('Budget')
+    plt.ylabel('Revenue')
+    plt.title('Budget vs Revenue')
+    plt.show()
+
+
     train_df['genres'] = train_df['genres'].apply(lambda row: {} if pd.isnull(row) else ast.literal_eval(row))
     train_df['genres'] = train_df['genres'].apply(lambda row: get_list(row, 'name') if row != {} else [])
     # print(train_df.info())
